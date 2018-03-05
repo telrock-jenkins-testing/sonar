@@ -3,7 +3,8 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git(url: 'ssh://git@utl-appgce01.pme.gb.telrock.net:2022/telrock-spring/telrock-tas', branch: '5.35.18-SNAPSHOT', changelog: true, credentialsId: 'eaf1e289-5cdf-4aa5-8490-041fc3a27097', poll: true)
+        echo "Checking out ${env.gitUrl} ${env.buildBranch}"
+        git(url: env.gitUrl, branch: env.buildBranch, credentialsId: 'eaf1e289-5cdf-4aa5-8490-041fc3a27097', poll: true, changelog: true)
       }
     }
     stage('Run') {
@@ -16,5 +17,13 @@ pipeline {
         waitForQualityGate()
       }
     }
+  }
+  environment {
+    gitUrl = 'https://coenie.basson@git.telrock-labs.com/telrock-spring/telrock-tas.git'
+    buildBranch = '5.35.18-SNAPSHOT'
+    jUnitPattern = '**/surefire-reports/*.xml'
+    jBehaveReportDir = 'telrock-tas-karma/target/jbehave/view'
+    jBehaveReportFiles = 'reports.html'
+    jBehaveReportName = 'JBehave - Karma'
   }
 }
