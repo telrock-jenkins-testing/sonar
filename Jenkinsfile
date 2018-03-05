@@ -7,11 +7,14 @@ pipeline {
         git(url: env.gitUrl, branch: env.buildBranch, credentialsId: 'eaf1e289-5cdf-4aa5-8490-041fc3a27097', poll: true, changelog: true)
       }
     }
-    stage('Run') {
-      steps {
-        sh 'mvn sonar:sonar   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=9e00f8b6dd1f8ff9fc16899749505766ba73cf8e'
-      }
-    }
+    stage('SonarQube analysis') {
+		steps {
+		    withSonarQubeEnv('SonarQube') {
+		      // requires SonarQube Scanner for Maven 3.2+
+		      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+		    }
+		}
+  	}
     stage('wait') {
       steps {
         waitForQualityGate()
