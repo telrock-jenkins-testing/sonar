@@ -20,7 +20,7 @@ pipeline {
   }
   environment {
     gitUrl = 'https://coenie.basson@git.telrock-labs.com/telrock-spring/telrock-tas.git'
-    buildBranch = '5.35.18-SNAPSHOT'
+    buildBranch = 'rc/5.35.18-SNAPSHOT'
     jUnitPattern = '**/surefire-reports/*.xml'
     jBehaveReportDir = 'telrock-tas-karma/target/jbehave/view'
     jBehaveReportFiles = 'reports.html'
